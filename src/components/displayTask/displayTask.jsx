@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Aux from "../../hoc/Auxiliary";
+import Aux from "../hoc/Auxiliary";
 
 import * as repositoryActions from "../../store/actions/repositoryActions";
 import "./displayTask.css";

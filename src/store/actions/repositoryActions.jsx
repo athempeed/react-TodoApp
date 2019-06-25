@@ -135,3 +135,25 @@ export const deleteData = (url, props) => {
     //   });
   };
 };
+
+const loginDataSuccess = response => {
+  return {
+    type: actionTypes.LOGIN_DATA_SUCCESS,
+    data: response
+  };
+};
+
+export const Login = (url, props) => {
+  return dispatch => {
+    console.log("ddd", props);
+    dispatch(loginDataSuccess(true));
+    // axios
+    //   .delete(url)
+    //   .then(response => {
+    //     dispatch(deleteDataSuccess(response));
+    //   })
+    //   .catch(error => {
+    //     //TODO: handle the error when implemented
+    //   });
+  };
+};

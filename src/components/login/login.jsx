@@ -1,7 +1,32 @@
 import React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
+import * as repositoryActions from "../../store/actions/repositoryActions";
 import "./login.css";
 
-export default class LoginComponent extends React.Component {
+class LoginComponent extends React.Component {
+  constructor() {
+    super();
+    this.state = { username: "", password: "" };
+  }
+  submitLogin = () => {
+    var request = {
+      username: this.state.username,
+      password: this.state.password
+    };
+    this.props.onLogin("", request);
+    this.props.history.push("/home");
+  };
+
+  handleChange = event => {
+    if (event.target.name === "username") {
+      this.setState({ username: event.target.value });
+    } else if (event.target.name === "password") {
+      this.setState({ password: event.target.value });
+    }
+  };
+
   render() {
     return (
       <div className="container">
@@ -11,35 +36,43 @@ export default class LoginComponent extends React.Component {
               <h3>Todo App Login</h3>
             </div>
             <div className="col-sm-12 col-md-10 col-md-offset-1">
-              <form action="" id="loginForm">
-                <div className="form-group input-group">
-                  <span className="input-group-addon">
-                    <i className="glyphicon glyphicon-user" />
-                  </span>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="username"
-                    placeholder="username"
-                  />
-                </div>
-                <div className="form-group input-group">
-                  <span className="input-group-addon">
-                    <i className="glyphicon glyphicon-lock" />
-                  </span>
-                  <input
-                    className="form-control"
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                  />
-                </div>
-                <div className="form-group">
-                  <button type="button" className="btn btn-primary btn-block">
-                    Login
-                  </button>
-                </div>
-              </form>
+              {/* <form action="" id="loginForm"> */}
+              <div className="form-group input-group">
+                <span className="input-group-addon">
+                  <i className="glyphicon glyphicon-user" />
+                </span>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="username"
+                  placeholder="username"
+                  value={this.state.username}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group input-group">
+                <span className="input-group-addon">
+                  <i className="glyphicon glyphicon-lock" />
+                </span>
+                <input
+                  className="form-control"
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <button
+                  type="button"
+                  onClick={this.submitLogin}
+                  className="btn btn-primary btn-block"
+                >
+                  Login
+                </button>
+              </div>
+              {/* </form> */}
             </div>
           </div>
         </div>
@@ -47,3 +80,21 @@ export default class LoginComponent extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    isAuthenticated: state.isAuthenticated
+  };
+};
+
+const mapStateToDispatch = dispatch => {
+  return {
+    onLogin: (url, request) => dispatch(repositoryActions.Login(url, request))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapStateToDispatch
+)(LoginComponent);

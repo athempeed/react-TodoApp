@@ -1,7 +1,8 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  data: null
+  data: null,
+  isAuthenticated: false
 };
 const executeGetDataSuccess = (state, action) => {
   return {
@@ -28,6 +29,13 @@ const executePutDataSuccess = (state, action) => {
   });
 };
 
+const executeLoginDataSuccess = (state, action) => {
+  return {
+    ...state,
+    isAuthenticated: action.data
+  };
+};
+
 const executeDeleteDataSuccess = (state, action) => {
   var idx = state.data.findIndex(x => x.id === action.data);
   var data = Object.assign([], state.data);
@@ -36,6 +44,7 @@ const executeDeleteDataSuccess = (state, action) => {
     data: data
   });
 };
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_DATA_SUCCESS:
@@ -46,6 +55,9 @@ const reducer = (state = initialState, action) => {
       return executePutDataSuccess(state, action);
     case actionTypes.DELETE_DATA_SUCCESS:
       return executeDeleteDataSuccess(state, action);
+    case actionTypes.LOGIN_DATA_SUCCESS:
+      console.log("came here");
+      return executeLoginDataSuccess(state, action);
     default:
       return state;
   }

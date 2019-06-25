@@ -1,8 +1,9 @@
 import React from "react";
-import { Route, Link, BrowserRouter as Router, Switch } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import LoginComponent from "../../components/login/login";
 import HomeComponent from "../../components/home/home";
+
 export default class RouteComponent extends React.Component {
   render() {
     return (

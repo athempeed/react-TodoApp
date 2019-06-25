@@ -4,9 +4,10 @@ import HeaderComponent from "../header/header";
 import ContentComponent from "../content/content";
 import TaskList from "../displayTask/displayTask";
 
-import Aux from "../../hoc/Auxiliary";
+import Aux from "../hoc/Auxiliary";
+import Auth from "../hoc/Authenticate";
 
-export default class HomeComponent extends React.Component {
+class HomeComponent extends React.Component {
   render() {
     return (
       <Aux>
@@ -17,3 +18,5 @@ export default class HomeComponent extends React.Component {
     );
   }
 }
+
+export default Auth(HomeComponent);
