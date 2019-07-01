@@ -18,11 +18,10 @@ const executePostDataSuccess = (state, action) => {
 };
 
 const executePutDataSuccess = (state, action) => {
-  // var idx = state.
   var data = Object.assign([], state.data);
   var idx = data.findIndex(x => x.id === action.data.id);
   if (idx >= 0) {
-    data[idx].completed = action.data.isCompleted;
+    data[idx].status = action.data.status;
   }
   return Object.assign({}, state, {
     data: data
@@ -36,6 +35,13 @@ const executeLoginDataSuccess = (state, action) => {
   };
 };
 
+
+const executeUpdateDataSuccess = (state, action) => {
+  //return null;
+  return Object.assign({}, state, {
+    isAuthenticated: action
+  });
+};
 const executeDeleteDataSuccess = (state, action) => {
   var idx = state.data.findIndex(x => x.id === action.data);
   var data = Object.assign([], state.data);
@@ -56,8 +62,11 @@ const reducer = (state = initialState, action) => {
     case actionTypes.DELETE_DATA_SUCCESS:
       return executeDeleteDataSuccess(state, action);
     case actionTypes.LOGIN_DATA_SUCCESS:
-      console.log("came here");
+      //console.log("came here");
       return executeLoginDataSuccess(state, action);
+    case actionTypes.AUTHENTICATE_DATA_SUCCESS:
+     // console.log("came here update");
+      return executeUpdateDataSuccess(state, action);
     default:
       return state;
   }

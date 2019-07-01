@@ -6,21 +6,28 @@ import * as repositoryActions from "../../store/actions/repositoryActions";
 import "./displayTask.css";
 import { isNullOrUndefined } from "util";
 
+
+
 class TaskList extends React.Component {
   componentDidMount = () => {
-    let url = "/api/owner";
+    let url = "/api/todo";
     this.props.onGetData(url, null);
   };
 
-  updateTask(obj) {
-    if (!isNullOrUndefined(obj)) {
-      this.props.onUpdateData("", obj);
+  updateTask(id) {
+    //console.log(id);
+    let url = "/api/todo";
+    if (!isNullOrUndefined(id)) {
+      url+="/"+id;
+      this.props.onUpdateData(url);
     }
   }
 
   deleteTask(id) {
+    let url = "/api/todo";
     if (!isNullOrUndefined(id)) {
-      this.props.onDeleteData("", { id: id });
+      url+="/"+id;
+      this.props.onDeleteData(url);
     }
   }
 
@@ -50,14 +57,11 @@ class TaskList extends React.Component {
                     return (
                       <tr key={index}>
                         <td>{value.id}</td>
-                        <td>{value.title}</td>
-                        <td>{value.completed.toString()}</td>
+                        <td>{value.task}</td>
+                        <td>{value.status.toString()}</td>
                         <td>
                           <button
-                            onClick={this.updateTask.bind(this, {
-                              id: value.id,
-                              isCompleted: !value.completed
-                            })}
+                            onClick={this.updateTask.bind(this, value.id)}
                             className="btn btn-primary mr-3"
                           >
                             Update
@@ -94,10 +98,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onGetData: (url, props) => dispatch(repositoryActions.getData(url, props)),
-    onUpdateData: (url, props) =>
-      dispatch(repositoryActions.putData(url, props)),
-    onDeleteData: (url, props) =>
-      dispatch(repositoryActions.deleteData(url, props))
+    onUpdateData: (url) =>
+      dispatch(repositoryActions.putData(url)),
+    onDeleteData: (url) =>
+      dispatch(repositoryActions.deleteData(url))
   };
 };
 export default connect(

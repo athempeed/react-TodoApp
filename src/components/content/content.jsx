@@ -11,8 +11,8 @@ class ContentComponent extends React.Component {
   }
   addTask() {
     if (!(isNullOrUndefined(this.state.task) || this.state.task === "")) {
-      var obj = { userId: 1, id: 9, title: this.state.task, completed: false };
-      this.props.onAddTask("", obj, "");
+       var obj = { task: this.state.task, status: false };
+      this.props.onAddTask("/api/todo", obj, "");
       this.setState({ task: "" });
     }
   }

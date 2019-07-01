@@ -1,21 +1,39 @@
 import React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 import * as repositoryActions from "../../store/actions/repositoryActions";
 import "./login.css";
+import { isNullOrUndefined } from "util";
 
+let url = "/api/user";
 class LoginComponent extends React.Component {
+
+
   constructor() {
     super();
     this.state = { username: "", password: "" };
+  }
+
+
+  componentWillMount(){
+    //console.log('came',window.sessionStorage["adal.state.login"]);
+    if(!isNullOrUndefined(window.sessionStorage["adal.state.login"])) {
+      this.props.onUpdateIsAuthenticated("",true);
+      //console.log("this.props.isAuthenticated", this.props.isAuthenticated);
+      this.props.history.push("/home");
+    }
+    else{
+      this.props.history.push("/");
+    }
+    
   }
   submitLogin = () => {
     var request = {
       username: this.state.username,
       password: this.state.password
     };
-    this.props.onLogin("", request);
+    this.props.onLogin(url, request);
     this.props.history.push("/home");
   };
 
@@ -82,7 +100,7 @@ class LoginComponent extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
+ // console.log(state);
   return {
     isAuthenticated: state.isAuthenticated
   };
@@ -90,7 +108,8 @@ const mapStateToProps = state => {
 
 const mapStateToDispatch = dispatch => {
   return {
-    onLogin: (url, request) => dispatch(repositoryActions.Login(url, request))
+    onLogin: (url, request) => dispatch(repositoryActions.Login(url, request)),
+    onUpdateIsAuthenticated: (url, request) => dispatch(repositoryActions.onUpdateIsAuthenticated(url, request))
   };
 };
 
